@@ -30,10 +30,16 @@ def contact():
         email = contactForm.email.data
         subject = contactForm.subject.data
         message = contactForm.message.data
+        msg = Message(subject,
+            sender=email,
+            recipients=["to@example.com"])
+        msg.body = message
+        mail.send(msg)
+        flash('Your message was sent!')
         return render_template('contact.html', name=name,
                             email=email,
                             subject=subject,
-                            message=message)
+                            message=message), redirect(url_for('index'))
         
     return render_template('contact.html')
 
