@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, flash
 from app import mail
 from flask_wtf import FlaskForm
 from flask_mail import Message
-from .forms import MyForm, PhotoForm
+from .forms import ContactForm
 
 
 ###
@@ -24,10 +24,16 @@ def about():
 
 @app.route('/contact', methods = ['POST'])
 def contact():
-    contactForm = MyForm()
-    if request.method == 'POST':
-        if contactForm.validate_on_submit():
-            return render_template('contact.html')
+    contactForm = ContactForm()
+    if contactForm.validate_on_submit():
+        name = contactForm.name.data
+        email = contactForm.email.data
+        subject = contactForm.subject.data
+        message = contactForm.message.data
+        return render_template('contact.html', name=name,
+                            email=email,
+                            subject=subject,
+                            message=message)
         
     return render_template('contact.html')
 
