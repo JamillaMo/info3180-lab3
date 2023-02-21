@@ -1,5 +1,9 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
+from app import mail
+from flask_wtf import FlaskForm
+from flask_mail import Message
+from .forms import MyForm, PhotoForm
 
 
 ###
@@ -16,6 +20,16 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+
+@app.route('/contact', methods = ['POST'])
+def contact():
+    contactForm = MyForm()
+    if request.method == 'POST':
+        if contactForm.validate_on_submit():
+            return render_template('contact.html')
+        
+    return render_template('contact.html')
 
 
 ###
